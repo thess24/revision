@@ -1,0 +1,40 @@
+
+
+
+
+=====================================================================
+=========   To Do   =================================================
+
+
+-Add ability to subscribe to  
+-host javascript, jquery locally
+-Add logged in homepage, showing to do list, subscribed
+-Add download link in title
+-Add announcements, and description for project
+-Add comments under files
+-Make lists editable
+-fix css widths
+-errors displayed for not filling out forms
+
+-Make one of two fields required
+https://docs.djangoproject.com/en/1.1/ref/forms/validation/#form-field-default-cleaning
+
+
+
+=======  Bigger tasks  =======
+
++++++ File Upload +++++
+
+-make sure files less than certain size
+-put files in correct paths
+https://docs.djangoproject.com/en/1.5/topics/http/file-uploads/
+
+
+
+- update to real django-registration instead of fork once available
+
+
+
+
+--------   HTML   --------
+

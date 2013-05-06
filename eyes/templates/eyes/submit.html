@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Revision- Submit{% endblock %}
+ 
+
+	{% block head %}
+	  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	  <link rel="stylesheet" href="/resources/demos/style.css" />
+	  <script>
+
+	  $(function() {
+		$( "#id_due_date" ).datepicker({gotoCurrent: true});
+	  });
+	  </script>
+	{% endblock %}
+
+
+<body>
+ 
+
+{% block content %}
+<div id='body'>
+  <h2>New File</h2>
+
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+
+    	{{form.as_p}}
+
+		<input type="submit" value= "Submit" />
+    </form>
+</div>
+
+{% endblock %}
+

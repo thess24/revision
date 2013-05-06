@@ -1,0 +1,283 @@
+ {% extends "base.html" %}
+
+ {% block title %}Revision- {{projectname}}{% endblock %}
+
+
+ {% block head %}
+
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css" />
+  <script>
+
+  // Makes to do list sortable
+
+  $(function() {
+    $( "#sortable" ).sortable({
+      placeholder: "ui-state-highlight"
+    });
+    $( "#sortable" ).disableSelection();
+  });
+
+
+// To do form hide and show
+
+$(function(){
+   $('.showtodoform').click(function(){
+      $(this).hide();
+      $('.hidetodoform').show();
+      $('.todoform').show();
+      return false;
+   });
+});
+
+$(function(){
+   $('.hidetodoform').click(function(){
+      $(this).hide();
+      $('.showtodoform').show();
+      $('.todoform').hide();
+      return false;
+   });
+});
+
+
+// Item form hide and show
+
+$(function(){
+   $('.showitemform').click(function(){
+      $(this).hide();
+      $('.hideitemform').show();
+      $('.itemform').show();
+      return false;
+   });
+});
+
+$(function(){
+   $('.hideitemform').click(function(){
+      $(this).hide();
+      $('.showitemform').show();
+      $('.itemform').hide();
+      return false;
+   });
+});
+
+
+// Date Picker
+
+$(function(){
+	$( "#id_due_date" ).datepicker({gotoCurrent: true});
+});
+
+
+// Show and Hide url and fileitem
+
+$(function(){
+   $('.showurl').click(function(){
+   	  $(this).hide();
+      $('#itemurl').show();
+      $('#id_fileitem').val("");
+      $('#itemfileitem').hide();       
+      $('.hideurl').show();     
+      return false;
+   });
+});
+
+$(function(){
+   $('.hideurl').click(function(){
+   	  $(this).hide();
+      $('#itemurl').hide();
+      $('#id_url').val(""); 
+      $('#itemfileitem').show();  
+      $('.showurl').show(); 
+      return false;
+   });
+});
+
+
+
+  </script>
+  <style>
+
+
+#id_title, #id_url, #id_fileitem, #id_comments {
+
+}
+
+
+.itemformlabel {
+	text-align: right;	
+	display: inline-block;
+	width: 120px;
+}
+
+.todoformlabel {
+	text-align: right;	
+	display: inline-block;
+	width: 120px;
+}
+
+.submitbutton {
+	font-size: 12px;
+	margin-left: 100px;
+
+}
+
+  </style>
+
+ {% endblock %}  
+
+<!--  end of head -->
+
+
+
+ {% block content %}
+
+	<div id= 'header'>
+
+	</div>
+	
+	<div id="container">
+
+		<div id='mainarea'>
+
+<!-- 			{% load staticfiles %} -->
+
+			<h1>{{projectname}} 
+				<input type="button" value= "+" class="showitemform"/>
+				<input type="button" style="display:none"  value= "-" class="hideitemform"/>
+			</h1>
+
+
+
+
+
+				<form method="post"  style='display:none' class ='itemform' enctype="multipart/form-data">
+
+					{% csrf_token %}
+<!-- 
+					    	{{additemform.as_p}} -->
+					<p><label for="id_title" class='itemformlabel'>Title:</label> <input id="id_title" maxlength="200" name="title" type="text" /></p>
+
+					<p id='itemurl' style="display:none"><label for="id_url" class='itemformlabel'>Url:</label> <input id="id_url" maxlength="200" name="url" type="text" /></p>
+
+					<p id='itemfileitem'><label for="id_fileitem" class='itemformlabel'></label><input id="id_fileitem" name="fileitem" type="file" /></p>
+					
+					<p><label for="id_comments" class='itemformlabel'>Comments:</label> <input id="id_comments" maxlength="500" name="comments" type="text" /></p>
+
+					<p>
+						<label for="id_sticky" class='itemformlabel'>Sticky:</label> <input id="id_sticky" name="sticky" type="checkbox" /> 
+
+						<input type="button" value= "Toggle Link" class="showurl" style="font-size:10px; vertical-align:middle; margin-left:40px"/>
+						<input type="button" value= "Toggle File" class="hideurl" style="display:none; font-size:10px; vertical-align:middle; margin-left:40px"/>
+					</p>
+
+
+
+
+				<input type="submit" value= "Submit" name="additem" class="submitbutton"/>
+		    	</form>
+
+
+
+		    {% if latest_items_list_sticky or latest_items_list %}
+		    <ul>
+		    {% for item in latest_items_list_sticky %}
+
+					<li style="list-style-type: none">
+						<div>
+						{% if item.url %}
+							<span id="title"><em><a href='{{item.url}}'>{{item.title}}</a></em></span>
+						{% else %}
+							<span id="title">{{item.title}}</span>
+						{% endif %}
+
+							<span id="comments">{{item.comments}}</span>	
+						</div>
+						<span id="update_user">Updated by {{item.update_user}}</span>			 
+						<span id="update_date"> on {{item.update_date}}</span>		
+						<span id="create_date">Created on {{item.create_date}}</span>						
+					</li>
+
+		    {% endfor %}
+
+		    	<br>
+		    {% for item in latest_items_list %}
+
+					<li style="list-style-type: none">
+						<div>
+						{% if item.url %}
+							<span id="title"><a href='{{item.url}}'>{{item.title}}</a></span>
+						{% elif item.fileitem %}
+							<span id="title"><a href='{{item.fileitem.url}}'>{{item.title}}</a><span>
+						{% else %}	
+							<span id="title">something went wrong</a><span>	
+						{% endif %}
+
+							<span id="comments">{{item.comments}}</span>	
+						</div>
+						<span id="update_user">Updated by {{item.update_user}}</span>			 
+						<span id="update_date"> on {{item.update_date}}</span>		
+						<span id="create_date">Created on {{item.create_date}}</span>						
+					</li>
+
+		    {% endfor %}
+
+
+		    </ul>
+		{% else %}
+		    <p>No items are available.</p>
+		{% endif %}
+
+
+	   		</div><!-- end main area -->
+
+	   		<div id='sidebar'>
+
+				<div id='todolist'>	
+					<h4>
+						<span>To do list </span>				
+						<input type="button" value= "+" class="showtodoform"/>
+						<input type="button" style="display:none"  value= "-" class="hidetodoform"/>
+					</h4>
+
+				<ul id='sortable'  style='list-style-type: none'>
+
+					{% for todo in todolist %}
+					<li>
+					<div>
+						<span id='todotitle'>{{todo.title}}</span><span id='tododuedate'>{{todo.due_date}}</span><span id='todoowner'>{{todo.owner}}</span>
+					</div>
+
+						{% if todo.description %}
+					<div id='todocomment'>
+						<span>{{todo.description}}</span>
+					</div>
+						{% else %}
+						{% endif %}
+					</li>
+					{% endfor %}
+
+				</ul>
+
+				<!-- To do list form -->
+				<form method="post" style="display:none" class="todoform">{% csrf_token %}
+
+						{{todoform.as_p}}
+
+					<!-- <p><label for="id_title" class="todoformlabel">To Do:</label> <input id="id_title" maxlength="60" name="title" type="text" /></p>
+					<p><label for="id_description" class="todoformlabel">Description:</label> <input id="id_description" maxlength="200" name="description" type="text" /></p>
+					<p><label for="id_due_date" class="todoformlabel">Due Date:</label> <input id="id_due_date" name="due_date" type="text" /></p>
+					<p><label for="id_owner" class="todoformlabel">Owner:</label> <input id="id_owner" maxlength="40" name="owner" type="text" /></p>
+					<p><label for="id_done" class="todoformlabel">Done:</label> <input id="id_done" name="done" type="checkbox" /></p> -->
+
+				<input type="submit" value= "Submit" name="addtodo" class="submitbutton"/>
+		    	</form>
+
+
+				</div><!--end todo list-->
+
+	   		</div><!-- end sidebar-->
+
+	</div><!-- end body -->
+{% endblock %}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<!--http://www.martijndevalk.nl/   css, javascript examples-->
+
+
+<!-- BEGIN html -->
+<html lang="en-US">
+
+  <head>
+  		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>{% block title %}Revision{% endblock%}</title>
+		{% block head %} {% endblock%} 
+		<link type="text/css" rel="stylesheet" href="/static/eyes/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="/static/eyes/main.css" />
+
+
+  </head>
+
+  <body>
+
+		<div id="header">
+			  <ul id="navigation">
+				<li><a href= "/">home</a></li>
+				{% if user.is_authenticated %}
+				<li>{{ user.username }}</li>
+				{% else %}
+				<li>Please Log In</li>
+				{% endif %}
+				<li><a href= "/accounts/logout" >signout</a></li>
+			  </ul>
+			  <!--add form for login-->
+			  
+
+		</div> <!-- end #header -->	  
+  {% block content %}
+  {% endblock %}
+		
+
+
+	
+<!-- 	
+		<div id="footer">
+		  <ul>
+			<li>about</li>
+			<li>the</li>
+			<li>footer</li>
+		  </ul>
+		</div> --> <!--end footer-->
+
+  </body>
+
+
+</html>

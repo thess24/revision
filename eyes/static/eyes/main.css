@@ -1,0 +1,206 @@
+html, body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+
+	width:100%;
+    margin: 0 auto;
+    padding: 0;
+    color: #333;
+
+}
+#container, #header{
+	padding:10px;
+}
+
+#container{
+	margin: 0 auto;
+}
+
+h2{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+/*       HEADER        */
+
+#navigation li{
+	padding-left: 1em;
+}
+
+#navigation {
+	font-size: 14px;
+	text-align:right;
+}
+
+#header ul li{
+	display: inline;
+	color: black;
+}
+
+#header ul li:hover{
+	color: green;
+}
+
+
+
+/*        BODY         */
+
+
+#title{
+	font-size:18px;
+	color: green;
+}
+
+#update_user, #update_date, #comments {
+	font-size:12px;
+}
+
+#create_date{
+	font-size:10px;
+}
+
+
+#file {
+	font-size:8px;
+	color: green;
+
+}
+
+#submitform li{
+	list-style-type: none; 
+	font-size:12px;
+}
+
+
+#sorter ul li{
+	list-style-type: none;
+	display:inline;
+	font-size:12px;
+	margin:2em;
+}
+
+#sources ul li div{
+	padding-top:5px;
+}
+
+
+/*    Sidebar vs Main area    */
+#sidebar {
+	float: right;
+	overflow: hidden;
+}
+
+#mainarea {
+	float: left;
+
+}
+
+
+/*     Buttons    */
+
+.showitemform {
+	color: green;
+	font-size: 12px;
+	font-weight: bolder;
+	vertical-align: middle;
+	height: 21px;
+	width: 23px;
+}
+
+.hideitemform {
+	color: red;
+	font-size: 12px;
+	font-weight: bolder;
+	vertical-align: middle;
+	height: 21px;
+	width: 23px;
+}
+
+.showtodoform{
+	color: green;
+	font-size: 10px;
+	font-weight: bolder;
+	vertical-align: middle;	
+	height: 18px;
+	width: 22px;
+
+}
+
+.hidetodoform {
+	color: red;
+	font-size: 10px;
+	font-weight: bolder;	
+	vertical-align: middle;
+	height: 18px;
+	width: 22px;
+}
+
+
+
+
+
+/*    TO DO LIST    */
+
+#todolist span{
+	margin: 10px;
+}
+
+#todolist li{
+	margin-top: 10px;
+}
+
+#todolist h4{
+	margin-left: 40px;
+	margin-bottom: 0;
+}
+
+
+#todocomment{
+	font-size: 60%;
+
+}
+
+#todocomment{
+	font-size: 60%;
+
+}
+
+#tododuedate{
+	font-size: 60%;
+	font-weight: bold;
+}
+
+#todoowner{
+	font-size: 60%;
+	font-weight: bold;
+}
+
+
+
+
+
+
+
+
+/*    FOOTER     
+
+
+#footer {
+	width:100%;
+	min-width:700px;
+	background:#AAAAAA;
+	text-align:center;
+}
+
+#footer ul{
+	list-style-type: none;
+}
+
+
+
+/* this should be added to locally hosted jquery file- once its locally hosted*/
+div.ui-datepicker{
+ font-size:10px;
+}
