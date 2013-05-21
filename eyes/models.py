@@ -39,10 +39,11 @@ class Todo(models.Model):
 		return self.title	
 
 class Comment(models.Model):
+	project = models.ForeignKey(Project)
 	item = models.ForeignKey(Item)
 	title = models.CharField(max_length=60)
 	comment = models.CharField(max_length=4000, blank=True)	
-	user = models.CharField(max_length=40)
+	user = models.ForeignKey(User)
 	create_date = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
@@ -52,7 +53,7 @@ class Announcement(models.Model):
 	project = models.ForeignKey(Project)
 	title = models.CharField(max_length=60)
 	description = models.CharField(max_length=200, blank=True)
-	user = models.CharField(max_length=40)
+	user = models.ForeignKey(User)
 	create_date = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
@@ -80,4 +81,13 @@ class TodoForm(ModelForm):
 		model = Todo
 		exclude = ('project', 'done')
 
+class CommentForm(ModelForm):
+	class Meta:
+		model = Comment
+		exclude = ('create_date', 'user', 'item')
+
+class AnnouncementForm(ModelForm):
+	class Meta:
+		model = Announcement
+		exclude = ('create_date', 'user', 'project')
 

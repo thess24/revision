@@ -47,10 +47,11 @@ class Migration(SchemaMigration):
         # Adding model 'Comment'
         db.create_table(u'eyes_comment', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyes.Project'])),
             ('item', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyes.Item'])),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('comment', self.gf('django.db.models.fields.CharField')(max_length=4000, blank=True)),
-            ('user', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
         ))
         db.send_create_signal(u'eyes', ['Comment'])
@@ -61,7 +62,7 @@ class Migration(SchemaMigration):
             ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eyes.Project'])),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('description', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
-            ('user', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
         ))
         db.send_create_signal(u'eyes', ['Announcement'])
@@ -128,7 +129,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'project': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['eyes.Project']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
-            'user': ('django.db.models.fields.CharField', [], {'max_length': '40'})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
         },
         u'eyes.comment': {
             'Meta': {'object_name': 'Comment'},
@@ -136,8 +137,9 @@ class Migration(SchemaMigration):
             'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'item': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['eyes.Item']"}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['eyes.Project']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
-            'user': ('django.db.models.fields.CharField', [], {'max_length': '40'})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
         },
         u'eyes.item': {
             'Meta': {'object_name': 'Item'},

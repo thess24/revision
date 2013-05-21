@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Revision- Submit{% endblock %}
+ 
+
+	{% block head %}
+
+	{% endblock %}
+
+
+<body>
+ 
+
+{% block content %}
+<div id='body'>
+  <h2>New File</h2>
+
+    <form method="post">{% csrf_token %}
+
+    	{{form.as_p}}
+
+		<input type="submit" value= "Submit" />
+    </form>
+
+<div>
+	<br>
+    {% for a in announcements %}
+					<li style="list-style-type: none">
+						<div>
+							<span id="title">{{a.title}}</span>
+
+							<span id="comments">{{a.description}}</span>	
+						</div>
+						<span id="update_user">Updated by {{a.user}}</span>			 	
+						<span id="create_date">Created on {{a.create_date}}</span>						
+					</li>
+
+    {% endfor %}
+</div>
+</div>
+
+{% endblock %}
+

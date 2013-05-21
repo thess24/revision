@@ -1,0 +1,81 @@
+ {% extends "base.html" %}
+
+ {% block title %}Revision- Home{% endblock %}
+
+
+ {% block head %}
+
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css" />
+  
+
+ {% endblock %}  
+
+<!--  end of head -->
+
+
+
+ {% block content %}
+
+	<div id= 'header'>
+
+	</div>
+	
+	<div id="container">
+
+		<div id='mainarea'>
+			<h2>Projects</h2>
+
+			{% for project in projects %}
+
+			<ul>
+				<li>
+				<a href="/{{project.project_name}}">{{project.project_name}}</a>
+				</li>
+		    </ul>
+		    {% endfor %}
+
+	   		</div><!-- end main area -->
+
+	   		<div id='sidebar'>
+				
+
+				<div id='todolist'>	<!-- start of todolist -->
+					<h4>
+						<span>To do list </span>				
+						<input type="button" value= "+" class="showtodoform"/>
+						<input type="button" style="display:none"  value= "-" class="hidetodoform"/>
+					</h4>
+					
+					<form method="post"> {% csrf_token %}
+					<ul id='sortable'  style='list-style-type: none'>
+
+						{% for todo in todolist %}
+						<li>
+						<div>
+							<input type="checkbox" name="deletetodo" value="{{todo.id}}"/>
+							<span id='todotitle'>{{todo.title}}</span><span id='tododuedate'>{{todo.due_date}}</span><span id='todoowner'>{{todo.owner}}</span>
+						</div>
+
+						<div id='todocomment'>
+							<span>{{todo.project}}</span><span>{{todo.description}}</span>
+						</div>
+
+						</li>
+						{% endfor %}
+
+
+					</ul>
+			
+					<input type="submit" value="Delete" name= "deletetodos"/>
+
+					</form>
+
+				</div><!--end todo list-->
+
+	   		</div><!-- end sidebar-->
+
+	</div><!-- end body -->
+{% endblock %}

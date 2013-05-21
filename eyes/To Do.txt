@@ -8,13 +8,15 @@
 
 -Add ability to subscribe to  
 -host javascript, jquery locally
--Add logged in homepage, showing to do list, subscribed
+-Add subscriptions
 -Add download link in title
 -Add announcements, and description for project
 -Add comments under files
--Make lists editable
 -fix css widths
 -errors displayed for not filling out forms
+- display same comment form on same page
+
+
 
 -Make one of two fields required
 https://docs.djangoproject.com/en/1.1/ref/forms/validation/#form-field-default-cleaning
@@ -30,7 +32,6 @@ https://docs.djangoproject.com/en/1.1/ref/forms/validation/#form-field-default-c
 https://docs.djangoproject.com/en/1.5/topics/http/file-uploads/
 
 
-
 - update to real django-registration instead of fork once available
 
 
@@ -38,3 +39,13 @@ https://docs.djangoproject.com/en/1.5/topics/http/file-uploads/
 
 --------   HTML   --------
 
+http://blog.mozilla.org/webdev/2011/12/15/django-optimization-story-thousand-times-faster/
+http://stackoverflow.com/questions/6288661/adding-a-user-to-a-group-in-django
+
+messaging
+https://github.com/mpasternak/django-monitio
+
+
+
+1. add groups, ability to subscribe in page
+2. add comments to items, dropdown to add comments

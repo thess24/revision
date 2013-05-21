@@ -97,6 +97,12 @@ h2{
 
 }
 
+#itemomments{
+	font-size: 12px;
+	list-style-type: none;
+
+}
+
 
 /*     Buttons    */
 
@@ -137,7 +143,41 @@ h2{
 	width: 22px;
 }
 
+.itemformlabel {
+	text-align: right;	
+	display: inline-block;
+	width: 120px;
+}
 
+.todoformlabel {
+	text-align: right;	
+	display: inline-block;
+	width: 120px;
+}
+
+.submitbutton {
+	font-size: 12px;
+	margin-left: 100px;
+
+}
+
+.commentbutton {
+	font-size: 10px;
+	border: none;
+	padding: none;
+}
+
+.subscribe{
+	color: green;
+	font-size: 10px;
+	vertical-align: middle;
+}
+
+.unsubscribe{
+	color: red;
+	font-size: 10px;
+	vertical-align: middle;
+}
 
 
 
@@ -177,13 +217,6 @@ h2{
 	font-weight: bold;
 }
 
-
-
-
-
-
-
-
 /*    FOOTER     
 
 
@@ -199,8 +232,10 @@ h2{
 }
 
 
-
 /* this should be added to locally hosted jquery file- once its locally hosted*/
 div.ui-datepicker{
  font-size:10px;
 }
+
+
+
