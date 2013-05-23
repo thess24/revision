@@ -6,11 +6,12 @@ from django.views.generic.edit import CreateView
 from django.utils import timezone  #for dates on submit
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-
+from django.contrib.auth.models import User,Group
 
 def index(request):
     return HttpResponse("/accounts/register <br> /addproject <br> /accounts/logout <br> /accounts/login")
 
+@login_required
 def projectpage(request, projectname):
 	try:
 		project = Project.objects.get(project_name__iexact=projectname)
@@ -20,13 +21,15 @@ def projectpage(request, projectname):
 	latest_items_list = Item.objects.filter(sticky=False).filter(project__project_name__iexact=projectname).order_by('-update_date')
 	latest_items_list_sticky = Item.objects.filter(sticky=True).filter(project__project_name__iexact=projectname).order_by('-update_date')
 	todolist = Todo.objects.filter(project__project_name__iexact=projectname)
-	comments = Comment.objects.filter(project__project_name__iexact=projectname)
-	
+	comments = Comment.objects.filter(project__project_name__iexact=projectname).order_by('create_date')
+	groups = request.user.groups.values_list('name',flat=True)
+	announcements = Announcement.objects.filter(project__project_name__iexact=projectname)[:3]
+
 	if request.method =='POST':
 		if 'additem' in request.POST:
 			additemform = ItemFormOnPage(request.POST, request.FILES)
-			todoform = TodoForm()
-			commentform= CommentForm()
+			todoform = TodoForm(projectname)
+			commentform= CommentForm(projectname)
 			if additemform.is_valid():
 				instance = additemform.save(commit=False)
 				instance.create_user = request.user
@@ -35,14 +38,14 @@ def projectpage(request, projectname):
 				if instance.fileitem:
 					instance.fileitem = request.FILES['fileitem']
 					instance.save()
-				else:		
+				else:
 					instance.save()
 				return HttpResponseRedirect(reverse('eyes.views.projectpage', args=(project,)))	
 
 		elif 'addtodo' in request.POST:
-			todoform = TodoForm(request.POST)
+			todoform = TodoForm(projectname, request.POST)
 			additemform = ItemFormOnPage()
-			commentform= CommentForm()
+			commentform= CommentForm(projectname)
 			if todoform.is_valid():
 				instance = todoform.save(commit=False)
 				instance.project = project
@@ -55,13 +58,37 @@ def projectpage(request, projectname):
 
 		elif 'deletetodos' in request.POST:
 			Todo.objects.filter(id__in=request.POST.getlist('deletetodo')).delete()
+			return HttpResponseRedirect(reverse('eyes.views.projectpage', args=(project,)))
+
+		elif 'subscribe' in request.POST:
+			adduser = request.user
+			g = Group.objects.get(name=projectname.lower())
+			g.user_set.add(adduser)
+			return HttpResponseRedirect(reverse('eyes.views.projectpage', args=(project,)))
+
+		elif 'unsubscribe' in request.POST:
+			adduser = request.user
+			g = Group.objects.get(name=projectname.lower())
+			g.user_set.remove(adduser)
 			return HttpResponseRedirect(reverse('eyes.views.projectpage', args=(project,)))		
+
+		elif 'commentsubmit' in request.POST:
+			todoform = TodoForm(projectname)
+			additemform = ItemFormOnPage()
+			commentform= CommentForm(projectname, request.POST)
+			if commentform.is_valid():
+				instance = commentform.save(commit=False)
+				instance.project = project
+				instance.user= request.user
+				instance.save()
+				return HttpResponseRedirect(reverse('eyes.views.projectpage', args=(project,)))			
+
 
 	else:
 		additemform = ItemFormOnPage()
-		todoform = TodoForm()
-		commentform= CommentForm()
-	context = {'commentform':commentform, 'comments':comments, 'todolist': todolist, 'todoform': todoform, 'additemform': additemform, 'latest_items_list_sticky':latest_items_list_sticky,'latest_items_list':latest_items_list, 'projectname':projectname}
+		todoform = TodoForm(projectname)
+		commentform= CommentForm(projectname)
+	context = {'announcements':announcements, 'groups':groups, 'commentform':commentform, 'comments':comments, 'todolist': todolist, 'todoform': todoform, 'additemform': additemform, 'latest_items_list_sticky':latest_items_list_sticky,'latest_items_list':latest_items_list, 'projectname':projectname}
 	return render(request, 'eyes/mainviewer.html', context)
 
 
@@ -93,6 +120,10 @@ def addproject(request):
 			instance = form.save(commit=False)
 			project = instance.project_name
 			instance.save()
+			Group.objects.create(name=project.lower())
+			adduser = request.user
+			g = Group.objects.get(name=project.lower())
+			g.user_set.add(adduser)
 			return HttpResponseRedirect(reverse('eyes.views.projectpage', args=(project,)))		
 	else:
 		form = ProjectForm()
@@ -124,6 +155,7 @@ def announce(request, projectname):
 @login_required
 def home(request):
 	projects = Project.objects.all()
+	groups = request.user.groups.values_list('name',flat=True)
 	todolist = Todo.objects.filter(owner__username=request.user)
-	context = {'projects':projects, 'todolist':todolist}
+	context = {'groups': groups, 'projects':projects, 'todolist':todolist}
 	return render(request, 'eyes/home.html', context)

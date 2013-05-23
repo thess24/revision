@@ -1,6 +1,6 @@
 html, body {
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
 
 	width:100%;
     margin: 0 auto;
@@ -22,11 +22,26 @@ h2{
     margin-bottom: 20px;
 }
 
+li{
+	list-style-type: none;
+}
+
+a:link {
+	/*color: green;*/
+}
 
 /*       HEADER        */
 
 #navigation li{
 	padding-left: 1em;
+}
+
+#navigation li a{
+	text-decoration: none;
+}
+
+#navigation li a:hover{
+	color: green;
 }
 
 #navigation {
@@ -50,6 +65,9 @@ h2{
 
 #title{
 	font-size:18px;
+}
+
+#title a:hover{
 	color: green;
 }
 
@@ -69,13 +87,11 @@ h2{
 }
 
 #submitform li{
-	list-style-type: none; 
 	font-size:12px;
 }
 
 
 #sorter ul li{
-	list-style-type: none;
 	display:inline;
 	font-size:12px;
 	margin:2em;
@@ -87,9 +103,17 @@ h2{
 
 
 /*    Sidebar vs Main area    */
+#subscribebars{
+	float: right;
+	width: 300px;
+	height: 30px;
+	margin-right: 50px;
+}
+
 #sidebar {
 	float: right;
 	overflow: hidden;
+	min-width: 350px;
 }
 
 #mainarea {
@@ -97,11 +121,23 @@ h2{
 
 }
 
-#itemomments{
+.itemcomments{
 	font-size: 12px;
-	list-style-type: none;
-
 }
+
+
+.itemcommentuser{
+	color: green;
+	font-weight: bold;
+}
+
+.itemcommentdate{
+	font-size: 10px;
+}
+
+
+
+
 
 
 /*     Buttons    */
@@ -179,6 +215,11 @@ h2{
 	vertical-align: middle;
 }
 
+.unsubform, .subscribeform{
+	float: right;
+	padding-right: 10px;
+}
+
 
 
 /*    TO DO LIST    */
@@ -188,7 +229,7 @@ h2{
 }
 
 #todolist li{
-	margin-top: 10px;
+	margin-top: 5px;
 }
 
 #todolist h4{
@@ -196,26 +237,27 @@ h2{
 	margin-bottom: 0;
 }
 
-
-#todocomment{
-	font-size: 60%;
-
-}
-
-#todocomment{
-	font-size: 60%;
+.todocomment{
+	font-size: 10px;
 
 }
 
-#tododuedate{
-	font-size: 60%;
+.tododuedate{
+	font-size: 10px;
+}
+
+
+.todoowner{
+	font-size: 10px;
 	font-weight: bold;
+	color: green;
 }
 
-#todoowner{
-	font-size: 60%;
-	font-weight: bold;
+.todotitle{
+	font-size: 12px;
+	font-weight: bold;	
 }
+
 
 /*    FOOTER     
 

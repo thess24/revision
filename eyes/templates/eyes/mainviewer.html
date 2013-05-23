@@ -5,116 +5,46 @@
 
  {% block head %}
 
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css" />
+  <script src="/static/eyes/jquery-1.9.1.js"></script>
+  <script src="/static/eyes/jquery-ui.js"></script>
+  <script src="/static/eyes/main.js"></script>  
+  <link type="text/css" rel="stylesheet" href="/static/eyes/jquery-ui.css" />
+
   <script>
-
-  // Makes to do list sortable
-
-  $(function() {
-    $( "#sortable" ).sortable({
-      placeholder: "ui-state-highlight"
-    });
-    $( "#sortable" ).disableSelection();
-  });
-
-
-// To do form hide and show
-
-$(function(){
-   $('.showtodoform').click(function(){
-      $(this).hide();
-      $('.hidetodoform').show();
-      $('.todoform').show();
-      return false;
-   });
-});
-
-$(function(){
-   $('.hidetodoform').click(function(){
-      $(this).hide();
-      $('.showtodoform').show();
-      $('.todoform').hide();
-      return false;
-   });
-});
-
-
-// Item form hide and show
-
-$(function(){
-   $('.showitemform').click(function(){
-      $(this).hide();
-      $('.hideitemform').show();
-      $('.itemform').show();
-      return false;
-   });
-});
-
-$(function(){
-   $('.hideitemform').click(function(){
-      $(this).hide();
-      $('.showitemform').show();
-      $('.itemform').hide();
-      return false;
-   });
-});
-
-
-// Date Picker
-
-$(function(){
-	$( "#id_due_date" ).datepicker({gotoCurrent: true});
-});
-
-
-// Show and Hide url and fileitem
-
-$(function(){
-   $('.showurl').click(function(){
-   	  $(this).hide();
-      $('#itemurl').show();
-      $('#id_fileitem').val("");
-      $('#itemfileitem').hide();       
-      $('.hideurl').show();     
-      return false;
-   });
-});
-
-$(function(){
-   $('.hideurl').click(function(){
-   	  $(this).hide();
-      $('#itemurl').hide();
-      $('#id_url').val(""); 
-      $('#itemfileitem').show();  
-      $('.showurl').show(); 
-      return false;
-   });
-});
-
-// Show and Hide comments
-
-$(function(){
-   $('.commentbutton').click(function(){
-   	  // $(this).hide();
-      $('.itemcomments').show();
-      // $('#id_fileitem').val("");
-      // $('#itemfileitem').hide();       
-      // $('.hidecomments').show();     
-      return false;
-   });
-});
-
-
-
 
 
 
   </script>
 
   <style>
+
+
+.anntitle {
+	font-weight: bold;
+}
+
+.anndescription {
+
+}
+
+.annuser {
+	font-size: 10px;
+	color: green;
+	margin-left: 25px;
+}
+
+.anndate {
+	font-size: 10px;
+}
+
+#announcements {
+	margin-left: 50px;
+}
+
+.annlist {
+	margin-bottom: 5px;
+}
+
   </style>
 
  {% endblock %}  
@@ -131,24 +61,111 @@ $(function(){
 	
 	<div id="container">
 
-		<div id='mainarea'>
+		<div id='sidebar'>
 
-<!-- 			{% load staticfiles %} -->
+				<div id="subscribebars">
+
+				{% for group in groups %}
+
+					{% ifequal group.title|lower projectname|lower %}
+
+					<div style="float:left">You are subscribed!</div>
+					<form method="post" class="unsubform">{% csrf_token %}
+						<input type="submit" value= "unsubscribe" name="unsubscribe" class="unsubscribe"/>
+					</form>
+
+					{% endifequal %}
+
+				{% endfor %}
+					
+
+					<form method="post" class="subscribeform">{% csrf_token %}
+						<input type="submit" value= "subscribe" name="subscribe" class="subscribe"/>
+					</form>
+
+
+				</div>
+				<br>
+
+				<div id='todolist'>	<!-- start of todolist -->
+					<h4>
+						<span>To do list </span>				
+						<input type="button" value= "+" class="showtodoform"/>
+						<input type="button" style="display:none"  value= "-" class="hidetodoform"/>
+					</h4>
+					
+					<form method="post"> {% csrf_token %}
+					<ul id='sortable'>
+
+						{% for todo in todolist %}
+						<li>
+
+						<div>
+							<input type="checkbox" name="deletetodo" value="{{todo.id}}"/>
+							<span class='todotitle'>{{todo.title}}</span>
+						</div>
+
+						{% if todo.description %}
+						<div class='todocomment'>
+							<span>{{todo.description}}</span>
+						</div>
+							{% else %}
+							{% endif %}
+
+						<div class="todocomment">
+							<span class='todoowner'>{{todo.owner}}</span>
+							<span class='tododuedate'>{{todo.due_date}}</span>
+						</div>
+
+
+						</li>
+						{% endfor %}
+
+
+					</ul>
+					<input type="submit" value="Delete" name= "deletetodos"/>
+
+					</form>
+
+				<!-- To do list form -->
+				<form method="post" style="display:none" class="todoform">{% csrf_token %}
+
+						{{todoform.as_p}}
+
+				<input type="submit" value= "Submit" name="addtodo" class="submitbutton"/>
+		    	</form>
+
+
+				</div><!--end todo list-->
+
+	   	</div><!-- end sidebar-->
+
+
+		<div id='mainarea'>
 
 			<h1>{{projectname}} 
 				<input type="button" value= "+" class="showitemform"/>
 				<input type="button" style="display:none"  value= "-" class="hideitemform"/>
-				<input type="button" value= "subscribe" class="subscribe"/>
-				<input type="button" value= "unsubscribe" class="unsubscribe"/>
+				<a style="font-size:10px" href="/{{projectname}}/announce">Add announcement</a>
 			</h1>
 
+			<div id='announcements'>
+    			{% for a in announcements %}
+					<li class='annlist'>
+						<div>
+							<span class='anntitle'>{{a.title}}</span><span>: </span>
+							<span class='anndescription'>{{a.description}}</span>	
+						</div>
+						<span class="annuser">{{a.user}}</span>			 	
+						<span class="anndate">Created on {{a.create_date}}</span>						
+					</li>
+   				{% endfor %}
+   			</div>
 
-				<form method="post"  style='display:none' class ='itemform' enctype="multipart/form-data">
 
-		<!-- Form to add items -->
-					{% csrf_token %}
-<!-- 
-					    	{{additemform.as_p}} -->
+				<form method="post"  style='display:none' class ='itemform' enctype="multipart/form-data">{% csrf_token %}
+	<!-- Form to add items -->			
+				<!-- {{additemform.as_p}} -->
 					<p><label for="id_title" class='itemformlabel'>Title:</label> <input id="id_title" maxlength="200" name="title" type="text" /></p>
 
 					<p id='itemurl' style="display:none"><label for="id_url" class='itemformlabel'>Url:</label> <input id="id_url" maxlength="200" name="url" type="text" /></p>
@@ -164,13 +181,10 @@ $(function(){
 						<input type="button" value= "Toggle File" class="hideurl" style="display:none; font-size:10px; vertical-align:middle; margin-left:40px"/>
 					</p>
 
-
-
-
 				<input type="submit" value= "Submit" name="additem" class="submitbutton"/>
 		    	</form>
 
-		<!-- Listing of items in project -->
+	<!-- Listing of items in project -->
 
 			<!-- sticky items first -->
 		    	<form method="post"> {% csrf_token %}
@@ -179,7 +193,7 @@ $(function(){
 
 		    {% for item in latest_items_list_sticky %}
 						
-					<li style="list-style-type: none">	
+					<li>	
 						<div>
 							<input type="checkbox" name="deleteitem" value="{{item.id}}"/>	    						
 						{% if item.url %}
@@ -190,30 +204,45 @@ $(function(){
 
 							<span id="comments">{{item.comments}}</span>	
 						</div>
-						<input type="button" value="comments" class="commentbutton"/>
+						<input type="button" value="comments" class="commentbutton" rel="#item_{{item.id}}"/>
 						<span id="update_user">Updated by {{item.update_user}}</span>			 
 						<span id="update_date"> on {{item.update_date}}</span>		
 						<span id="create_date">Created on {{item.create_date}}</span>				
 					</li>
 
-					<ul>
+					<ul id="item_{{item.id}}" style="display:none" class="itemcomments">
+						<!-- this is to match up with the button to display the comments through js -->
 
 					{% for comment in comments%}
-
+					<!-- cycle through comments and find ones who match the current item -->
 						{% ifequal item.title|lower comment.item|lower %}
 		<!-- 	for some reason does not work unless they are both put in same case, i didnt try anything else because it worked -->
-						<li class="itemcomments" style="display:none">
+
+						<li>
+							<br>
 							<div>
-							{{comment.title}} 
+								<span class="itemcommentuser">{{comment.user}}</span>
+								<span class="itemcommentdate">{{comment.create_date}}</span>
 							</div>
+
 							<div>
 							{{comment.comment}} 
 							</div>
-							</li>
+
+						</li>
 						{% endifequal %}
 
 					{% endfor %}	
+					<br>
+					<form method='post'>{% csrf_token %}
 
+						<!-- {{commentform.as_p}} -->
+					<p><input type="text" style="display:none" id="id_item" name="item" value="{{item.id}}"/></p>
+					<p><label for="id_comment">Comment:</label> <textarea cols="40" id="id_comment" name="comment" rows="5">
+					</textarea></p>
+
+						<input type='submit' value='submit' name='commentsubmit'/>
+					</form>
 					</ul>
 		    {% endfor %}
 
@@ -221,7 +250,7 @@ $(function(){
 		    	<br>
 		    {% for item in latest_items_list %}
 
-					<li style="list-style-type: none">
+					<li>
 						<div>
 							<input type="checkbox" name="deleteitem" value="{{item.id}}"/>
 						{% if item.url %}
@@ -234,38 +263,48 @@ $(function(){
 
 							<span id="comments">{{item.comments}}</span>	
 						</div>
-						<input type="button" value="comments" class="commentbutton"/>
+						<input type="button" value="comments" class="commentbutton" rel="#item_{{item.id}}"/>
 						<span id="update_user">Updated by {{item.update_user}}</span>			 
 						<span id="update_date"> on {{item.update_date}}</span>		
 						<span id="create_date">Created on {{item.create_date}}</span>						
 					</li>
 
-					<ul>
+					<ul id="item_{{item.id}}" style="display:none" class="itemcomments">
 
 					{% for comment in comments%}
 
 						{% ifequal item.title|lower comment.item|lower %}
 		<!-- 	for some reason does not work unless they are both put in same case, i didnt try anything else because it worked -->
-						<li class="itemcomments" style="display:none">
+						
+						<li>
+							<br>
 							<div>
-							{{comment.title}} 
+								<span class="itemcommentuser">{{comment.user}}</span>
+								<span class="itemcommentdate">{{comment.create_date}}</span>
 							</div>
+
 							<div>
 							{{comment.comment}} 
 							</div>
-							</li>
+
+						</li>
 						{% endifequal %}
 
 					{% endfor %}	
+					<br>
+					<form method='post'>{% csrf_token %}
+						<!-- {{commentform.as_p}} -->
+					<p><input type="text" style="display:none" id="id_item" name="item" value="{{item.id}}"/></p>
+					<p><label for="id_comment">Comment:</label> <textarea cols="40" id="id_comment" name="comment" rows="5">
+					</textarea></p>
 
+					<input type='submit' value='submit' name='commentsubmit'/>
+					</form>
+					<br>
 					</ul>
 
-			<!-- 		<form method="post" style="display:none" class="">{% csrf_token %}
-					{{commentform.as_p}}
-					</form> -->
-
-
 		    {% endfor %}
+		    	<br>
 		    	<input type="submit" value= "Delete" name="deleteitems"/>
 		    	</form>
 		    </ul>
@@ -273,62 +312,9 @@ $(function(){
 		    <p>No items are available.</p>
 		{% endif %}
 
+	   	</div><!-- end main area -->
 
-	   		</div><!-- end main area -->
-
-	   		<div id='sidebar'>
-				
-
-				<div id='todolist'>	<!-- start of todolist -->
-					<h4>
-						<span>To do list </span>				
-						<input type="button" value= "+" class="showtodoform"/>
-						<input type="button" style="display:none"  value= "-" class="hidetodoform"/>
-					</h4>
-					
-					<form method="post"> {% csrf_token %}
-					<ul id='sortable'  style='list-style-type: none'>
-
-						{% for todo in todolist %}
-						<li>
-						<div>
-							<input type="checkbox" name="deletetodo" value="{{todo.id}}"/>
-							<span id='todotitle'>{{todo.title}}</span><span id='tododuedate'>{{todo.due_date}}</span><span id='todoowner'>{{todo.owner}}</span>
-						</div>
-
-							{% if todo.description %}
-						<div id='todocomment'>
-							<span>{{todo.description}}</span>
-						</div>
-							{% else %}
-							{% endif %}
-						</li>
-						{% endfor %}
-
-
-					</ul>
-					<input type="submit" value="Delete" name= "deletetodos"/>
-
-					</form>
-
-				<!-- To do list form -->
-				<form method="post" style="display:none" class="todoform">{% csrf_token %}
-
-						{{todoform.as_p}}
-
-					<!-- <p><label for="id_title" class="todoformlabel">To Do:</label> <input id="id_title" maxlength="60" name="title" type="text" /></p>
-					<p><label for="id_description" class="todoformlabel">Description:</label> <input id="id_description" maxlength="200" name="description" type="text" /></p>
-					<p><label for="id_due_date" class="todoformlabel">Due Date:</label> <input id="id_due_date" name="due_date" type="text" /></p>
-					<p><label for="id_owner" class="todoformlabel">Owner:</label> <input id="id_owner" maxlength="40" name="owner" type="text" /></p>
-					<p><label for="id_done" class="todoformlabel">Done:</label> <input id="id_done" name="done" type="checkbox" /></p> -->
-
-				<input type="submit" value= "Submit" name="addtodo" class="submitbutton"/>
-		    	</form>
-
-
-				</div><!--end todo list-->
-
-	   		</div><!-- end sidebar-->
 
 	</div><!-- end body -->
+</div>
 {% endblock %}

@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css" />
   
 
  {% endblock %}  
@@ -16,7 +15,7 @@
 <!--  end of head -->
 
 
-
+ 
  {% block content %}
 
 	<div id= 'header'>
@@ -26,13 +25,23 @@
 	<div id="container">
 
 		<div id='mainarea'>
-			<h2>Projects</h2>
+			<h2>All Projects</h2>
 
 			{% for project in projects %}
 
 			<ul>
 				<li>
 				<a href="/{{project.project_name}}">{{project.project_name}}</a>
+				</li>
+		    </ul>
+		    {% endfor %}
+
+		    <h2>Groups</h2>
+			{% for group in groups %}
+
+			<ul>
+				<li>
+				<a href="/{{group.title}}">{{group.title}}</a>
 				</li>
 		    </ul>
 		    {% endfor %}
@@ -56,10 +65,10 @@
 						<li>
 						<div>
 							<input type="checkbox" name="deletetodo" value="{{todo.id}}"/>
-							<span id='todotitle'>{{todo.title}}</span><span id='tododuedate'>{{todo.due_date}}</span><span id='todoowner'>{{todo.owner}}</span>
+							<span class='todotitle'>{{todo.title}}</span><span class='tododuedate'>{{todo.due_date}}</span>
 						</div>
 
-						<div id='todocomment'>
+						<div class='todocomment'>
 							<span>{{todo.project}}</span><span>{{todo.description}}</span>
 						</div>
 

@@ -1,6 +1,7 @@
 from django.db import models
-from django.forms import ModelForm
-from django.contrib.auth.models import User
+from django.forms import ModelForm, Textarea
+from django.contrib.auth.models import User, Group
+from django import forms
 
 
 
@@ -41,8 +42,8 @@ class Todo(models.Model):
 class Comment(models.Model):
 	project = models.ForeignKey(Project)
 	item = models.ForeignKey(Item)
-	title = models.CharField(max_length=60)
-	comment = models.CharField(max_length=4000, blank=True)	
+	title = models.CharField(max_length=60, default=False)
+	comment = models.CharField(max_length=4000, blank=True)
 	user = models.ForeignKey(User)
 	create_date = models.DateTimeField(auto_now_add=True)
 
@@ -58,6 +59,12 @@ class Announcement(models.Model):
 
 	def __unicode__(self):
 		return self.title	
+
+## ON FUTURE DB ##
+
+# delete comment title
+# make todo duedate optional
+# add project description
 
 
 
@@ -81,13 +88,26 @@ class TodoForm(ModelForm):
 		model = Todo
 		exclude = ('project', 'done')
 
+	def __init__(self,project,*args,**kwargs):
+		super(TodoForm, self).__init__(*args,**kwargs)
+		g=Group.objects.get(name=project.lower())
+		self.fields['owner'].queryset = g.user_set.all()
+
+
 class CommentForm(ModelForm):
 	class Meta:
 		model = Comment
-		exclude = ('create_date', 'user', 'item')
+		exclude = ('create_date', 'user', 'project', 'title')
+		widgets = {'comment': Textarea(attrs={'cols': 40, 'rows': 5}),'item': Textarea(attrs={'cols': 15, 'rows': 1}) }
+
+	def __init__(self,project,*args,**kwargs):
+		super(CommentForm, self).__init__(*args,**kwargs)
+		self.fields['item'].queryset = Item.objects.filter(project__project_name__iexact=project)
+
 
 class AnnouncementForm(ModelForm):
 	class Meta:
 		model = Announcement
 		exclude = ('create_date', 'user', 'project')
+		widgets = {'description': Textarea(attrs={'cols': 40, 'rows': 5}),}
 

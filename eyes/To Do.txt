@@ -6,16 +6,11 @@
 =========   To Do   =================================================
 
 
--Add ability to subscribe to  
 -host javascript, jquery locally
--Add subscriptions
 -Add download link in title
 -Add announcements, and description for project
--Add comments under files
 -fix css widths
--errors displayed for not filling out forms
-- display same comment form on same page
-
+-errors displayed for not filling out forms--fix forms with modelform
 
 
 -Make one of two fields required
@@ -34,8 +29,9 @@ https://docs.djangoproject.com/en/1.5/topics/http/file-uploads/
 
 - update to real django-registration instead of fork once available
 
+- add calendar
 
-
+- add ajax
 
 --------   HTML   --------
 
@@ -45,7 +41,3 @@ http://stackoverflow.com/questions/6288661/adding-a-user-to-a-group-in-django
 messaging
 https://github.com/mpasternak/django-monitio
 
-
-
-1. add groups, ability to subscribe in page
-2. add comments to items, dropdown to add comments
