@@ -7,6 +7,10 @@
         border: 2px solid red;
       }
     </style>
+    {% block head %}
+    {% endblock %}
+    <link type="text/css" rel="stylesheet" href="/static/eyes/registration.css" />
+    <link type="text/css" rel="stylesheet" href="/static/eyes/normalize.css" />
     <title>{% block title %}Tagging Exploration{% endblock %}</title>
 </head>
 
@@ -18,6 +22,7 @@
     <div id="content">
         {% block content %}{% endblock %}
         {% block main_content %}{% endblock %}
+        {% block content-related %}{% endblock %}
     </div>
 </body>
 </html>

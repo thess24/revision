@@ -6,15 +6,35 @@
 =========   To Do   =================================================
 
 
--host javascript, jquery locally
 -Add download link in title
--Add announcements, and description for project
--fix css widths
+-work on css
+-make comments editable
+-rethink groupings
+-Make user default in todolist
+-ajax forms
+-add messaging- django postman
+-show if comments exist (code in view)
+-make "look at" requests to appear in homepage
+-add chat, conferencing
+-add tags
+-fix urls
+
+
+
 -errors displayed for not filling out forms--fix forms with modelform
-
-
+-ajax jquery form validation
 -Make one of two fields required
 https://docs.djangoproject.com/en/1.1/ref/forms/validation/#form-field-default-cleaning
+
+
+
+http://django-taggit.readthedocs.org/en/latest/api.html
+https://bitbucket.org/psam/django-postman/wiki/Home
+https://groups.google.com/forum/?fromgroups#!topic/django-users/WbLK8TP9yWU
+https://docs.djangoproject.com/en/1.5/ref/templates/builtins/#std:templatetag-load
+https://docs.djangoproject.com/en/1.5/intro/tutorial03/#removing-hardcoded-urls-in-templates
+http://stackoverflow.com/questions/4840102/how-come-my-south-migrations-doesnt-work-for-django
+
 
 
 
@@ -41,3 +61,11 @@ http://stackoverflow.com/questions/6288661/adding-a-user-to-a-group-in-django
 messaging
 https://github.com/mpasternak/django-monitio
 
+
+
+
+
+-web ideas list
+-chicago jobs
+-chicago startups
+-flight lookup

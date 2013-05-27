@@ -9,8 +9,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User,Group
 
 def index(request):
-    return HttpResponse("/accounts/register <br> /addproject <br> /accounts/logout <br> /accounts/login")
-
+    return render(request, 'eyes/landing.html', )
+    
 @login_required
 def projectpage(request, projectname):
 	try:

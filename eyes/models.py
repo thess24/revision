@@ -64,7 +64,11 @@ class Announcement(models.Model):
 
 # delete comment title
 # make todo duedate optional
+# add todo category
 # add project description
+# add general comments for project
+# project owner
+# item textarea
 
 
 

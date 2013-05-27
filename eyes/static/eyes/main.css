@@ -1,12 +1,12 @@
 html, body {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
-
+    height: 100%;
 	width:100%;
     margin: 0 auto;
     padding: 0;
     color: #333;
-
+    background-color: rgb(231, 231, 231);
 }
 #container, #header{
 	padding:10px;
@@ -14,12 +14,22 @@ html, body {
 
 #container{
 	margin: 0 auto;
+	min-height: 800px;
+}
+
+h1 {
+	color: rgb(66, 127, 255);
 }
 
 h2{
+	color: rgb(66, 127, 255);
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+}
+
+h4 {
+	color: rgb(66, 127, 255);
 }
 
 li{
@@ -30,6 +40,19 @@ a:link {
 	/*color: green;*/
 }
 
+textarea{
+	width:300px;
+	height: 60px;
+	border: 2px solid #cccccc;
+}
+
+/*textarea:hover{
+	border: 2px solid yellow;
+}*/
+
+
+
+
 /*       HEADER        */
 
 #navigation li{
@@ -38,10 +61,15 @@ a:link {
 
 #navigation li a{
 	text-decoration: none;
+	color: rgb(66, 127, 255);
+}
+
+#navigation li a:visited{
+	color: rgb(66, 127, 255);
 }
 
 #navigation li a:hover{
-	color: green;
+	color: rgb(77,77,77);
 }
 
 #navigation {
@@ -51,11 +79,11 @@ a:link {
 
 #header ul li{
 	display: inline;
-	color: black;
+	color: rgb(66, 127, 255);
 }
 
 #header ul li:hover{
-	color: green;
+	color: rgb(77,77,77);
 }
 
 
@@ -63,16 +91,16 @@ a:link {
 /*        BODY         */
 
 
-#title{
+.item_title{
 	font-size:18px;
 }
 
-#title a:hover{
-	color: green;
+.item_title a:hover{
+	color: rgb(66, 127, 255);
 }
 
 #update_user, #update_date, #comments {
-	font-size:12px;
+	font-size:10px;
 }
 
 #create_date{
@@ -101,6 +129,33 @@ a:link {
 	padding-top:5px;
 }
 
+.anntitle {
+	font-weight: bold;
+}
+
+.anndescription {
+
+}
+
+.annuser {
+	font-size: 10px;
+	color: rgb(66, 127, 255);
+	margin-left: 25px;
+}
+
+.anndate {
+	font-size: 10px;
+}
+
+#announcements {
+	margin-left: 50px;
+}
+
+.annlist {
+	margin-bottom: 5px;
+}
+
+
 
 /*    Sidebar vs Main area    */
 #subscribebars{
@@ -127,7 +182,7 @@ a:link {
 
 
 .itemcommentuser{
-	color: green;
+	color: rgb(66, 127, 255);
 	font-weight: bold;
 }
 
@@ -203,13 +258,13 @@ a:link {
 	padding: none;
 }
 
-.subscribe{
+#subscribe{
 	color: green;
 	font-size: 10px;
 	vertical-align: middle;
 }
 
-.unsubscribe{
+#unsubscribe{
 	color: red;
 	font-size: 10px;
 	vertical-align: middle;
@@ -220,6 +275,18 @@ a:link {
 	padding-right: 10px;
 }
 
+input[type=submit]{
+	color: rgb(66, 127, 255);
+	height: 30px;
+	/*font-size: 14px;*/
+	font-weight: bold;
+	border:0;
+	background-color: rgb(190, 190, 190);
+}
+
+input[type=submit]:hover{
+	border:1px solid;
+}
 
 
 /*    TO DO LIST    */
@@ -250,7 +317,7 @@ a:link {
 .todoowner{
 	font-size: 10px;
 	font-weight: bold;
-	color: green;
+	color: rgb(66, 127, 255);
 }
 
 .todotitle{
@@ -258,26 +325,35 @@ a:link {
 	font-weight: bold;	
 }
 
-
-/*    FOOTER     
-
-
-#footer {
-	width:100%;
-	min-width:700px;
-	background:#AAAAAA;
-	text-align:center;
-}
-
-#footer ul{
-	list-style-type: none;
-}
-
-
-/* this should be added to locally hosted jquery file- once its locally hosted*/
 div.ui-datepicker{
  font-size:10px;
 }
+
+    /*FOOTER     */
+
+
+/*#footer {
+	width:100%;
+	min-width:700px;
+	background:#333333;
+	text-align:center;
+	min-height: 150px;
+	position: relative;
+}
+
+#footerlist li{
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#footerlist li a{
+	color: white;
+}*/
+
+/* this should be added to locally hosted jquery file- once its locally hosted*/
+
+
 
 
 

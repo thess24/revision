@@ -2,26 +2,82 @@
 
 {% block title %}Log in{% endblock %}
 
+{% block head %}
+
+    <style type="text/css">
+
+#loginform{
+/*	text-align: center;
+	background-color: green;
+	margin-top: 20%;*/
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	margin-left: -235px;
+	background-color: rgb(231, 231, 231);
+	padding-bottom: 100px;
+	padding-left: 100px;
+	padding-right: 100px;
+	padding-top: 50px;
+
+}
+
+#signupifnone{
+	font-size: 12px;
+	color: gray;
+}
+
+#signupifnone a{
+	color: rgb(66, 127, 255);
+}
+
+#signupifnone a:hover{
+	color: rgb(77,77,77);
+}
+
+
+
+/*there is a div and backround with same color--background color might be better darker*/
+
+    </style>
+
+
+
+
+
+{% endblock %}
+
+
 {% block content %}
 
-<h1>Log in</h1>
+
+<div id="loginform">
+<h1>Sign in to your Account</h1>
 
 {% if form.errors %}
 <p class="error">Please correct the errors below:</p>
 {% endif %}
 
 <form method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
-<dl>
-<dt><label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.username }}</dd>
-<dt><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.password }}</dd>
-<dt><input type="submit" value="Log in" /></dt>
-</dl>
+
+<p><label for="id_username" class="formlabel" style="width:0px"></label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}<input id="id_username" placeholder="Username" maxlength="254" name="username" type="text" /></p>
+
+<p><label for="id_password" class="formlabel" style="width:0px"></label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}<input id="id_password" placeholder="Password" name="password" type="password" /></p>
+
+<input id="subbut" type="submit" value="Log in" />
+
+<p id="signupifnone">If you don't have an account, you can <a href="/accounts/register/">sign
+up</a> for one.</p>
+
 </form>
+</div>
+
+
+
+
+
+
 {% endblock %}
 
-{% block content-related %}
-<p>If you don't have an account, you can <a href="/accounts/register/">sign
-up</a> for one.
-{% endblock %}
+
+

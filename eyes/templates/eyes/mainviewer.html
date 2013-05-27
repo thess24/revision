@@ -19,31 +19,16 @@
   <style>
 
 
-.anntitle {
-	font-weight: bold;
-}
-
-.anndescription {
+.itembox:hover{
+	/*border: 1px solid gray;*/
+	background-color: white;
 
 }
 
-.annuser {
-	font-size: 10px;
-	color: green;
-	margin-left: 25px;
+.itembox{
+	padding: 1px;
 }
 
-.anndate {
-	font-size: 10px;
-}
-
-#announcements {
-	margin-left: 50px;
-}
-
-.annlist {
-	margin-bottom: 5px;
-}
 
   </style>
 
@@ -54,35 +39,23 @@
 
 
  {% block content %}
-
-	<div id= 'header'>
-
-	</div>
 	
 	<div id="container">
-
 		<div id='sidebar'>
-
 				<div id="subscribebars">
 
 				{% for group in groups %}
-
 					{% ifequal group.title|lower projectname|lower %}
 
-					<div style="float:left">You are subscribed!</div>
 					<form method="post" class="unsubform">{% csrf_token %}
-						<input type="submit" value= "unsubscribe" name="unsubscribe" class="unsubscribe"/>
+						<input type="submit" value= "unsubscribe" name="unsubscribe" id="unsubscribe"/>
 					</form>
-
 					{% endifequal %}
-
 				{% endfor %}
-					
 
 					<form method="post" class="subscribeform">{% csrf_token %}
-						<input type="submit" value= "subscribe" name="subscribe" class="subscribe"/>
+						<input type="submit" value= "subscribe" name="subscribe" id="subscribe"/>
 					</form>
-
 
 				</div>
 				<br>
@@ -99,31 +72,27 @@
 
 						{% for todo in todolist %}
 						<li>
-
 						<div>
 							<input type="checkbox" name="deletetodo" value="{{todo.id}}"/>
 							<span class='todotitle'>{{todo.title}}</span>
 						</div>
-
-						{% if todo.description %}
+							{% if todo.description %}
 						<div class='todocomment'>
 							<span>{{todo.description}}</span>
 						</div>
 							{% else %}
 							{% endif %}
-
 						<div class="todocomment">
 							<span class='todoowner'>{{todo.owner}}</span>
 							<span class='tododuedate'>{{todo.due_date}}</span>
 						</div>
-
-
 						</li>
 						{% endfor %}
 
-
+						<br>
+						<input type="submit" value="Delete" name= "deletetodos"/>
 					</ul>
-					<input type="submit" value="Delete" name= "deletetodos"/>
+					
 
 					</form>
 
@@ -192,33 +161,35 @@
 		    <ul>
 
 		    {% for item in latest_items_list_sticky %}
-						
-					<li>	
+					<li class= "itembox">	
 						<div>
-							<input type="checkbox" name="deleteitem" value="{{item.id}}"/>	    						
+							<input type="checkbox" name="deleteitem" value="{{item.id}}"/>				
 						{% if item.url %}
-							<span id="title"><em><a href='{{item.url}}'>{{item.title}}</a></em></span>
+							<span class="item_title"><em><a href='{{item.url}}'>{{item.title}}</a></em></span>
+							<span id="comments">{{item.comments}}</span>	
+						</div>
+						<input type="button" value="comments" class="commentbutton" rel="#item_{{item.id}}"/>
+						<span id="update_user">Added by {{item.update_user}}</span>			 
+						<span id="create_date"> on {{item.create_date}}</span>
 						{% else %}
-							<span id="title">{{item.title}}</span>
-						{% endif %}
-
+							<span class="item_title">{{item.title}}</span>
 							<span id="comments">{{item.comments}}</span>	
 						</div>
 						<input type="button" value="comments" class="commentbutton" rel="#item_{{item.id}}"/>
 						<span id="update_user">Updated by {{item.update_user}}</span>			 
 						<span id="update_date"> on {{item.update_date}}</span>		
-						<span id="create_date">Created on {{item.create_date}}</span>				
+						<span id="create_date">Created: {{item.create_date}}</span>
+						{% endif %}
 					</li>
 
 					<ul id="item_{{item.id}}" style="display:none" class="itemcomments">
 						<!-- this is to match up with the button to display the comments through js -->
 
-					{% for comment in comments%}
 					<!-- cycle through comments and find ones who match the current item -->
-						{% ifequal item.title|lower comment.item|lower %}
-		<!-- 	for some reason does not work unless they are both put in same case, i didnt try anything else because it worked -->
 
-						<li>
+					{% for comment in comments%}
+						{% ifequal item.title|lower comment.item|lower %}
+						<li class="commentitem_{{item.id}}">
 							<br>
 							<div>
 								<span class="itemcommentuser">{{comment.user}}</span>
@@ -228,17 +199,14 @@
 							<div>
 							{{comment.comment}} 
 							</div>
-
 						</li>
 						{% endifequal %}
-
 					{% endfor %}	
 					<br>
 					<form method='post'>{% csrf_token %}
-
 						<!-- {{commentform.as_p}} -->
 					<p><input type="text" style="display:none" id="id_item" name="item" value="{{item.id}}"/></p>
-					<p><label for="id_comment">Comment:</label> <textarea cols="40" id="id_comment" name="comment" rows="5">
+					<p><label for="id_comment"></label> <textarea id="id_comment" placeholder="Enter a comment..." onfocus="this.value=''" name="comment">Enter a comment...
 					</textarea></p>
 
 						<input type='submit' value='submit' name='commentsubmit'/>
@@ -249,34 +217,32 @@
 		    <!-- the non sticky items -->
 		    	<br>
 		    {% for item in latest_items_list %}
-
-					<li>
+					<li class="itembox">
 						<div>
 							<input type="checkbox" name="deleteitem" value="{{item.id}}"/>
 						{% if item.url %}
-							<span id="title"><a href='{{item.url}}'>{{item.title}}</a></span>
-						{% elif item.fileitem %}
-							<span id="title"><a href='{{item.fileitem.url}}'>{{item.title}}</a><span>
-						{% else %}	
-							<span id="title">something went wrong</a><span>	
-						{% endif %}
-
+							<span class="item_title"><em><a href='{{item.url}}'>{{item.title}}</a></em></span>
+							<span id="comments">{{item.comments}}</span>	
+						</div>
+						<input type="button" value="comments" class="commentbutton" rel="#item_{{item.id}}"/>
+						<span id="update_user">Added by {{item.update_user}}</span>			 
+						<span id="create_date"> on {{item.create_date}}</span>
+						{% else %}
+							<span class="item_title">{{item.title}}</span>
 							<span id="comments">{{item.comments}}</span>	
 						</div>
 						<input type="button" value="comments" class="commentbutton" rel="#item_{{item.id}}"/>
 						<span id="update_user">Updated by {{item.update_user}}</span>			 
 						<span id="update_date"> on {{item.update_date}}</span>		
-						<span id="create_date">Created on {{item.create_date}}</span>						
+						<span id="create_date">Created: {{item.create_date}}</span>
+						{% endif %}						
 					</li>
 
 					<ul id="item_{{item.id}}" style="display:none" class="itemcomments">
-
 					{% for comment in comments%}
-
 						{% ifequal item.title|lower comment.item|lower %}
-		<!-- 	for some reason does not work unless they are both put in same case, i didnt try anything else because it worked -->
-						
-						<li>
+		<!-- 	for some reason does not work unless they are both put in same case, i didnt try anything else because it worked -->	
+						<li class="commentitem_{{item.id}}">
 							<br>
 							<div>
 								<span class="itemcommentuser">{{comment.user}}</span>
@@ -286,24 +252,23 @@
 							<div>
 							{{comment.comment}} 
 							</div>
-
 						</li>
 						{% endifequal %}
-
 					{% endfor %}	
 					<br>
+
 					<form method='post'>{% csrf_token %}
 						<!-- {{commentform.as_p}} -->
 					<p><input type="text" style="display:none" id="id_item" name="item" value="{{item.id}}"/></p>
-					<p><label for="id_comment">Comment:</label> <textarea cols="40" id="id_comment" name="comment" rows="5">
+					<p><label for="id_comment"></label> <textarea id="id_comment" placeholder="Enter a comment..." onfocus="this.value=''" name="comment">Enter a comment...
 					</textarea></p>
 
 					<input type='submit' value='submit' name='commentsubmit'/>
 					</form>
 					<br>
 					</ul>
-
 		    {% endfor %}
+
 		    	<br>
 		    	<input type="submit" value= "Delete" name="deleteitems"/>
 		    	</form>
@@ -313,8 +278,18 @@
 		{% endif %}
 
 	   	</div><!-- end main area -->
-
-
 	</div><!-- end body -->
+
+
+<!-- 	<div id="footer">
+		<br>
+		<ul id='footerlist'>
+			<li><a href='/addproject'>add project</a></li>
+			<li><a href='/{{projectname}}/announce'>add announcement</a></li>
+			<li><a href='/home'>home</a></li>
+		</ul>
+
+	</div> -->
+	
 </div>
 {% endblock %}

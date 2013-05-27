@@ -81,29 +81,15 @@ $(function(){
    });
 });
 
-// Show and Hide subscriptions
+// Hide subscribe form if subscribed---hidden unsub already taken care of on backend
 
-// $(function(){
-//    $('.subscribe').click(function(){
-//    	  $(this).hide();     
-//       $('.unsubscribe').show();     
-//       return false;
-//    });
-// });
+$(document).ready(function(){
+if($("#unsubscribe").length){
+     $("#subscribe").hide();
+}
+});
 
-// $(function(){
-//    $('.unsubscribe').click(function(){
-//    	  $(this).hide();     
-//       $('.subscribe').show();     
-//       return false;
-//    });
-// });
-
-
-
-
-
-
+ 
 
 //// Show and Hide comments
 
